@@ -6,8 +6,9 @@ if [ "`whoami`" != "runasuser" ]; then
   chown runasuser:runasuser /home/runasuser/script.sh
   chmod 750 /home/runasuser/script.sh
   sudo -u runasuser sh "/home/runasuser/script.sh" "$@"
-  sudo /home/runasuser/actions-runner/svc.sh install runasuser
-  sudo /home/runasuser/actions-runner/svc.sh start
+  cd /home/runasuser/actions-runner
+  ./svc.sh install runasuser
+  ./svc.sh start
   exit
 fi
 
