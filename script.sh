@@ -4,7 +4,8 @@ if [ "`whoami`" != "runasuser" ]; then
   useradd -m runasuser
   cp "$0" /home/runasuser/
   chown runasuser:runasuser /home/runasuser/script.sh
-  sudo -u runasuser bash "/home/runasuser/script.sh" "$@"
+  chmod 750 /home/runasuser/script.sh
+  sudo -u runasuser sh "/home/runasuser/script.sh" "$@"
   exit
 fi
 
