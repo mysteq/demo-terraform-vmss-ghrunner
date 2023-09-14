@@ -26,7 +26,7 @@ resource "azurerm_subnet" "snet" {
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
-  name                            = "example-vmss"
+  name                            = "vmss-demo-ghrunner-noeast"
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = azurerm_resource_group.rg.location
   sku                             = "Standard_D2s_v3"
@@ -35,6 +35,12 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   admin_password                  = random_password.pw.result
   upgrade_mode                    = "Automatic"
   disable_password_authentication = false
+
+  plan {
+    publisher = "amestofortytwoas1653635920536"
+    product   = "self_hosted_runner_github-preview"
+    name      = "ubuntu_latest"
+  }
 
   source_image_reference {
     publisher = "amestofortytwoas1653635920536"
@@ -73,7 +79,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     protected_settings = <<SETTINGS
     {
         "fileUris": "https://raw.githubusercontent.com/mysteq/demo-terraform-vmss-ghrunner/script.sh",
-        "commandToExecute": "sh script.sh https://github.com/mysteq/demo-terraform-vmss-ghrunner x label"
+        "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} label"
     }
     SETTINGS
   }
