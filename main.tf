@@ -32,7 +32,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   sku                             = "Standard_D2s_v3"
   instances                       = 2
   admin_username                  = "admin42"
-  admin_password                  = random_password.pw.result
+  admin_password                  = var.password
   upgrade_mode                    = "Automatic"
   disable_password_authentication = false
 

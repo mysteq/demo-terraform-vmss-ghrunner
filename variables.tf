@@ -5,3 +5,7 @@ variable "github_org" {
 variable "github_key" {
   type = string
 }
+
+variable "password" {
+  type = string
+}
