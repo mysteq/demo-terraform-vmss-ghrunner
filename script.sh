@@ -8,6 +8,6 @@ if [ "`whoami`" != $user ]; then
   chown $user:$user /home/$user/create-latest-svc.sh
   chmod 750 /home/$user/create-latest-svc.sh
   export RUNNER_CFG_PAT=$2
-  sh "/home/runasuser/create-latest-svc.sh" -s $1 -u $user -l $4
+  bash "/home/$user/create-latest-svc.sh" -s $1 -u $user -l $4
   exit
 fi
