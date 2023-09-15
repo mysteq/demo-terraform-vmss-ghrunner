@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
         "fileUris": [
           "https://raw.githubusercontent.com/mysteq/demo-terraform-vmss-ghrunner/main/script.sh"
           ],
-        "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} label"
+        "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} runner label"
     }
     SETTINGS
   }
