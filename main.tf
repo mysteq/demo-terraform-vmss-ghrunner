@@ -29,23 +29,24 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   name                            = "vmss-demo-ghrunner-noeast"
   resource_group_name             = azurerm_resource_group.rg.name
   location                        = azurerm_resource_group.rg.location
-  sku                             = "Standard_D2s_v3"
-  instances                       = 2
-  admin_username                  = "admin42"
+  sku                             = "Standard_D2s_v5"
+  instances                       = 1
+  admin_username                  = "runner"
   admin_password                  = var.password
   upgrade_mode                    = "Automatic"
   disable_password_authentication = false
+  overprovision                   = false
 
   plan {
     publisher = "amestofortytwoas1653635920536"
-    product   = "self_hosted_runner_github-preview"
-    name      = "ubuntu_latest"
+    product   = "self_hosted_runner_github"
+    name      = "ubuntu-latest"
   }
 
   source_image_reference {
     publisher = "amestofortytwoas1653635920536"
-    offer     = "self_hosted_runner_github-preview"
-    sku       = "ubuntu_latest"
+    offer     = "self_hosted_runner_github"
+    sku       = "ubuntu-latest"
     version   = "latest"
   }
 
@@ -70,6 +71,16 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   }
 
+  automatic_instance_repair {
+    enabled      = true
+    grace_period = "PT10M"
+  }
+
+  termination_notification {
+    enabled = true
+    timeout = "PT5M"
+  }
+
   extension {
     name                 = "CustomScript"
     publisher            = "Microsoft.Azure.Extensions"
@@ -79,9 +90,41 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     protected_settings = <<SETTINGS
     {
         "fileUris": [
-          "https://raw.githubusercontent.com/mysteq/demo-terraform-vmss-ghrunner/main/script.sh"
+          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script_preview_v2.sh"
           ],
-        "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} runner label"
+        "commandToExecute": "RUNNER_CFG_PAT=${var.github_key} bash script_preview_v2.sh -s ${var.github_org} -u runner -l label -f"
+    }
+    SETTINGS
+  }
+
+  #   extension {
+  #   name                 = "CustomScript"
+  #   publisher            = "Microsoft.Azure.Extensions"
+  #   type                 = "CustomScript"
+  #   type_handler_version = "2.1"
+
+  #   protected_settings = <<SETTINGS
+  #   {
+  #       "fileUris": [
+  #         "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script_preview_v2.sh"
+  #         ],
+  #       "commandToExecute": "bash script_v2.sh ${var.github_org} ${var.github_key} runner label"
+  #   }
+  #   SETTINGS
+  # }
+
+  extension {
+    name                 = "HealthExtension"
+    publisher            = "Microsoft.ManagedServices"
+    type                 = "ApplicationHealthLinux"
+    type_handler_version = "1.0"
+
+    settings = <<SETTINGS
+    {
+      "protocol": "tcp",
+      "port": 22,
+      "intervalInSeconds": 5,
+      "numberOfProbes": 1
     }
     SETTINGS
   }
