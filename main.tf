@@ -39,13 +39,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
   plan {
     publisher = "amestofortytwoas1653635920536"
-    product   = "self_hosted_runner_github-preview"
+    product   = "self_hosted_runner_ado-preview"
     name      = "ubuntu-latest"
   }
 
   source_image_reference {
     publisher = "amestofortytwoas1653635920536"
-    offer     = "self_hosted_runner_github"
+    offer     = "self_hosted_runner_ado-preview"
     sku       = "ubuntu-latest"
     version   = "latest"
   }
