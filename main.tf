@@ -81,23 +81,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     timeout = "PT5M"
   }
 
-  extension {
-    name                 = "CustomScript"
-    publisher            = "Microsoft.Azure.Extensions"
-    type                 = "CustomScript"
-    type_handler_version = "2.1"
-
-    protected_settings = <<SETTINGS
-    {
-        "fileUris": [
-          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script_preview_v2.sh"
-          ],
-        "commandToExecute": "RUNNER_CFG_PAT=${var.github_key} bash script_preview_v2.sh -s ${var.github_org} -u runner -l label -f"
-    }
-    SETTINGS
-  }
-
-  #   extension {
+  # extension {
   #   name                 = "CustomScript"
   #   publisher            = "Microsoft.Azure.Extensions"
   #   type                 = "CustomScript"
@@ -106,12 +90,28 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   #   protected_settings = <<SETTINGS
   #   {
   #       "fileUris": [
-  #         "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script_preview_v2.sh"
+  #         "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
   #         ],
-  #       "commandToExecute": "bash script_v2.sh ${var.github_org} ${var.github_key} runner label"
+  #       "commandToExecute": "RUNNER_CFG_PAT=${var.github_key} bash script.sh -s ${var.github_org} -u runner -l label -f"
   #   }
   #   SETTINGS
   # }
+
+    extension {
+    name                 = "CustomScript"
+    publisher            = "Microsoft.Azure.Extensions"
+    type                 = "CustomScript"
+    type_handler_version = "2.1"
+
+    protected_settings = <<SETTINGS
+    {
+        "fileUris": [
+          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
+          ],
+        "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} runner label"
+    }
+    SETTINGS
+  }
 
   extension {
     name                 = "HealthExtension"
