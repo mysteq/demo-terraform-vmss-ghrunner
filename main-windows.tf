@@ -46,13 +46,13 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
 
   plan {
     publisher = "amestofortytwoas1653635920536"
-    product   = "self_hosted_runner_ado-preview"
+    product   = "self_hosted_runner_ado"
     name      = "windows-latest"
   }
 
   source_image_reference {
     publisher = "amestofortytwoas1653635920536"
-    offer     = "self_hosted_runner_ado-preview"
+    offer     = "self_hosted_runner_ado"
     sku       = "windows-latest"
     version   = "latest"
   }
@@ -113,7 +113,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     protected_settings = <<SETTINGS
     {
         "fileUris": [
-          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/feat/pwshscript/scripts/invoke-ghrunner.ps1"
+          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/feat/ghdomain/scripts/invoke-ghrunner.ps1"
           ],
         "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command .\\invoke-ghrunner.ps1 -runnerscope ${var.github_org} -githubpat ${var.github_key} -user runner -userpassword ${var.password} -label label"
     }
