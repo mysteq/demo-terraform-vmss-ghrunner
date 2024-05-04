@@ -90,7 +90,7 @@
 #   #   protected_settings = <<SETTINGS
 #   #   {
 #   #       "fileUris": [
-#   #         "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
+#   #         "https://raw.githubusercontent.com/fortytwoservices/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
 #   #         ],
 #   #       "commandToExecute": "RUNNER_CFG_PAT=${var.github_key} bash script.sh -s ${var.github_org} -u runner -l label -f"
 #   #   }
@@ -106,7 +106,7 @@
 #     protected_settings = <<SETTINGS
 #     {
 #         "fileUris": [
-#           "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
+#           "https://raw.githubusercontent.com/fortytwoservices/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
 #           ],
 #         "commandToExecute": "sh script.sh ${var.github_org} ${var.github_key} runner label"
 #     }

@@ -97,7 +97,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
   #   protected_settings = <<SETTINGS
   #   {
   #       "fileUris": [
-  #         "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
+  #         "https://raw.githubusercontent.com/fortytwoservices/terraform-azurerm-selfhostedrunnervmss/main/scripts/script.sh"
   #         ],
   #       "commandToExecute": "RUNNER_CFG_PAT=${var.github_key} bash script.sh -s ${var.github_org} -u runner -l label -f"
   #   }
@@ -113,7 +113,7 @@ resource "azurerm_windows_virtual_machine_scale_set" "vmss" {
     protected_settings = <<SETTINGS
     {
         "fileUris": [
-          "https://raw.githubusercontent.com/amestofortytwo/terraform-azurerm-selfhostedrunnervmss/feat/ghdomain/scripts/invoke-ghrunner.ps1"
+          "https://raw.githubusercontent.com/fortytwoservices/terraform-azurerm-selfhostedrunnervmss/feat/ghdomain/scripts/invoke-ghrunner.ps1"
           ],
         "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command .\\invoke-ghrunner.ps1 -runnerscope ${var.github_org} -githubpat ${var.github_key} -user runner -userpassword ${var.password} -label label"
     }
